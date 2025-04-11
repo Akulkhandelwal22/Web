@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="auth-container">
+        <h1>Login</h1>
+        <form method="POST" action="{{ url_for('login') }}" onsubmit="return validateEmail()">
+            <div class="form-group">
+                <label for="name">Username</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+                <span class="toggle-password" onclick="togglePassword()">✔ Show</span>
+            </div>
+            <button type="submit" class="btn">Login</button>
+        </form>
+        <p>Don't have an account? <a href="{{ url_for('signup') }}">Sign up</a></p>
+    </div>
+          
+<script>
+    function validateEmail() {
+        const emailInput = document.getElementById('email').value.trim();
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!emailPattern.test(emailInput)) {
+            alert('Please enter a valid email address.');
+            return false;
+        }
+
+        const domain = emailInput.split('@')[1];
+        const allowedDomains = ['gmail.com', 'yahoo.com', 'yourdomain.com'];
+
+        if (allowedDomains.includes(domain) || domain.endsWith('.in')) {
+            return true;
+        }
+
+        alert('Please use an email address with an accepted domain (e.g., gmail.com, or any .in domain)');
+        return false;
+      }
+
+      function togglePassword() {
+      const passwordInput = document.getElementById('password');
+      const toggleIcon = passwordInput.nextElementSibling;
+
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        toggleIcon.textContent = '✖ Hide';
+      } else {
+        passwordInput.type = 'password';
+        toggleIcon.textContent = '✔ Show';
+    }
+}    
+</script>
+</body>
+</html>
